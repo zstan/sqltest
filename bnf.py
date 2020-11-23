@@ -164,8 +164,8 @@ class ASTTokens(list):
         while did_modify:
             did_modify = False
 
-            for choice_idx in xrange(0, len(choice)):
-                for token_idx in xrange(0, len(choice[choice_idx])):
+            for choice_idx in range(0, len(choice)):
+                for token_idx in range(0, len(choice[choice_idx])):
                     if isinstance(choice[choice_idx][token_idx], ASTOptional):
                         # Add a new path to the choice, one without the option
                         # and the other one with the option.
@@ -235,7 +235,7 @@ class ASTTokens(list):
         # These numbers are correct from the point of view of the BNF but
         # (probably) no databases will understand or accept these so the spaces
         # must be removed.
-        for choice_idx in xrange(0, len(choice)):
+        for choice_idx in range(0, len(choice)):
             choice[choice_idx] = str(choice[choice_idx])
 
             # Since almost all of the components of a constructed number are
@@ -399,7 +399,8 @@ def parse(tokens, eof=None, root=None):
     choice = ASTTokens()
     while True:
         try:
-            token = tokens.next()
+            #print (dir(tokens))
+            token = tokens.__next__()
             if token == eof:
                 raise StopIteration()
         except StopIteration:
@@ -582,17 +583,18 @@ def unpack_overrides(overrides):
     return o
 
 def visualize(rules, rule_name, depth, max_depth, overrides):
-    print ' ' * depth,
+    _str = ' ' * depth
+    print (_str),
 
     if depth >= max_depth:
-        print "..."
+        print ("...")
         return
     
     if rule_name in overrides:
-        print "%s = '%s'" % (rule_name, overrides[rule_name])
+        print ("%s = '%s'" % (rule_name, overrides[rule_name]))
         return
 
-    print rule_name
+    print (rule_name)
 
     subrules = extract_subrules_from_grammar(str(rules[rule_name]['ast']))
     for subrule in subrules:

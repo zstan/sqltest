@@ -8,6 +8,7 @@ import bnf
 import sys
 import sqlite3
 import cgi
+import html
 import pprint
 import json
 
@@ -19,11 +20,11 @@ run_test = __import__(sys.argv[1], globals(), locals(), ['run_test']).run_test
 
 def load_db_config(name):
     features_file = open("%s/config.yml" % name.replace('.', '/'), "r")
-    return yaml.load(features_file)
+    return yaml.load(features_file, Loader=yaml.FullLoader)
 
 def get_all_features(standard):
     features_file = open("standards/%s/features.yml" % standard, "r")
-    all_features = yaml.load(features_file)
+    all_features = yaml.load(features_file, Loader=yaml.FullLoader)
 
     for group in ('mandatory', 'optional'):
         for feature_id in all_features[group]:
@@ -82,7 +83,7 @@ def generate_tests(feature_file_path, db_config):
 
         sqls = bnf.get_paths_for_rule(rules, test['sql'], override, exclude)
 
-        for rule_number in xrange(0, len(sqls)):
+        for rule_number in range(0, len(sqls)):
             test_id = '%s_%02d_%02d' % (
                 basename.split('.')[0].replace('-', '_').lower(),
                 test_number, rule_number + 1
@@ -145,7 +146,8 @@ for feature_id in sorted(test_files):
     test_files[feature_id]['pass'] = 0
     test_files[feature_id]['fail'] = 0
 
-    print('%s: %s tests' % (feature_id, len(tests)))
+    for t in tests:
+        print(t)
 
     for test in tests:
         did_pass = True
@@ -215,7 +217,7 @@ for category in ('mandatory', 'optional'):
                 total_passed += f['pass']
 
         feats[category][feature_id] = {
-            'description': cgi.escape(all_features[category][feature_id]['description']),
+            'description': html.escape(all_features[category][feature_id]['description']),
             "pass": int(f['pass']),
             "total": int(f['pass']) + int(f['fail']),
         }
