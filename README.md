@@ -9,7 +9,6 @@ free** and the licence does not allow all or parts of it to be published. Older
 versions are either out of licence, or they don't mind, here is the
 [SQL-92 standard](https://www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt).
 
-
 How It Works
 ============
 
@@ -40,6 +39,10 @@ When running the suite these automatically expand into
 [70 individual tests](https://github.com/elliotchance/sqltest/blob/master/standards/2016/E/E011-02.tests.yml)
 that are executed against the actual database to produce the final report.
 
+
+How to run with Ignite
+======================
+python3 generate_tests.py dbs.ignite.v
 
 Progress
 ========
