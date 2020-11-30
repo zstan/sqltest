@@ -5,15 +5,21 @@ import pyignite
 client = Client()
 client.connect('127.0.0.1', 10800)
 
-exclude = ['CREATE SCHEMA', 'CREATE ROLE', 'PRIVILEGES ON', 'REFERENCES ON', 'CREATE VIEW', 'CREATE ROLE']
+exclude = ['GRANT', 'CREATE SCHEMA', 'CREATE ROLE', 'PRIVILEGES ON', 'REFERENCES ON', 'CREATE VIEW', 'CREATE ROLE']
 
 def run_test(test):
     error = None
     try:
         for sql in test['sql']:
+            skip = False
             for ex in exclude:
                 if (sql.find(ex) != -1):
-                    continue
+                    print ('skip: ' + sql)
+                    skip = True
+                    break
+
+            if skip:
+                continue
 
             if (sql.find("CREATE TABLE") != -1 and sql.find('PRIMARY KEY') == -1):
                 pos1 = sql.rfind(")")
@@ -29,5 +35,7 @@ def run_test(test):
     except pyignite.exceptions.ParseError as e1:
         print (e1)
         client.connect('127.0.0.1', 10800)
+    except Exception as e0:
+        print ("!!!: " + e0)
 
     return error
