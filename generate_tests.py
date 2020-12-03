@@ -20,11 +20,11 @@ run_test = __import__(sys.argv[1], globals(), locals(), ['run_test']).run_test
 
 def load_db_config(name):
     features_file = open("%s/config.yml" % name.replace('.', '/'), "r")
-    return yaml.load(features_file, Loader=yaml.FullLoader)
+    return yaml.load(features_file)
 
 def get_all_features(standard):
     features_file = open("standards/%s/features.yml" % standard, "r")
-    all_features = yaml.load(features_file, Loader=yaml.FullLoader)
+    all_features = yaml.load(features_file)
 
     for group in ('mandatory', 'optional'):
         for feature_id in all_features[group]:
