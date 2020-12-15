@@ -3,7 +3,7 @@ import jaydebeapi
 conn = jaydebeapi.connect("org.apache.ignite.IgniteJdbcThinDriver", "jdbc:ignite:thin://127.0.0.1?useExperimentalQueryEngine=true", ["", ""],
     "/home/zstan/work/repo/apache-ignite/modules/core/target/ignite-core-2.10.0-SNAPSHOT.jar")
 
-exclude = ['GRANT', 'CREATE SCHEMA', 'CREATE ROLE', 'PRIVILEGES ON', 'REFERENCES ON', 'CREATE VIEW', 'CREATE ROLE']
+exclude = ['GRANT', 'CREATE SCHEMA', 'CREATE ROLE', 'PRIVILEGES ON', 'REFERENCES ON', 'CREATE VIEW', 'CREATE ROLE', '( A ) VALUES ( DEFAULT )']
 
 def run_test(test):
     error = None
@@ -17,7 +17,7 @@ def run_test(test):
                     break
 
             if skip:
-                continue
+                raise NotImplementedError("not supported")
 
             if (sql.find("CREATE TABLE") != -1 and sql.find('PRIMARY KEY') == -1):
                 pos1 = sql.rfind(")")
@@ -29,5 +29,7 @@ def run_test(test):
     except Exception as e:
         print (e)
         error = e
+    except NotImplementedError as e1:
+        error = e1
 
     return error
