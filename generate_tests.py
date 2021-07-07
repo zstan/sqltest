@@ -233,8 +233,8 @@ with open(path, "w") as report_file:
         'dbversion': str(db_config['db']['version']),
         'path': path
     }
-    report_file.write('loadResults(')
+    #report_file.write('loadResults(')
     report_file.write(json.dumps({'info': db, 'features': feats}, sort_keys=True, indent=2, separators=(',', ': ')))
-    report_file.write(')')
+    #report_file.write(')')
 
 generate_tc(path)
