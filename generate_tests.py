@@ -12,6 +12,8 @@ import html
 import pprint
 import json
 
+from convert import generate_tc
+
 if len(sys.argv) < 2:
     print("Usage: %s dbs.postgresql.v9_2" % sys.argv[0])
     sys.exit(1)
@@ -234,3 +236,5 @@ with open(path, "w") as report_file:
     report_file.write('loadResults(')
     report_file.write(json.dumps({'info': db, 'features': feats}, sort_keys=True, indent=2, separators=(',', ': ')))
     report_file.write(')')
+
+generate_tc(path)

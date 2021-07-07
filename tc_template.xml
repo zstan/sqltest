@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a description of the JUnit XML format and how Jenkins parses it. See also junit.xsd -->
+
+
+  <!-- testsuite can appear multiple times, if contained in a testsuites element.
+       It can also be the root element. -->
+<testsuite name="sqltest" tests="%total%" failures="%failed%" id="0">
+
+    <!-- testcase can appear multiple times, see /testsuites/testsuite@tests -->
+%testcase%
+
+</testsuite>
