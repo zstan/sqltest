@@ -23,7 +23,7 @@ def run_test(test):
             print ("start execute: " + sql)
             with conn.cursor() as curs:
                 curs.execute(sql)
-        print("complete: " + sql)
+        print("complete: " + sql,  flush=True)
     except Exception as e:
         print (e)
         error = e
